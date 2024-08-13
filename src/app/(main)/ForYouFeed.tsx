@@ -2,11 +2,12 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import PostItem from "@/components/posts/PostItem";
+import PostItem from "@/components/posts/post-item/PostItem";
 import ky from "@/lib/ky";
 import { Paginated } from "@/lib/helpers.types";
 import { PostData } from "@/lib/types";
 import { InfiniteScrollContainer } from "@/components/ui/infinite-scroll-container";
+import { LoadingSkeleton } from "@/components/posts/LoadingSkeleton";
 
 export default function ForYouFeed() {
     const {
@@ -39,24 +40,30 @@ export default function ForYouFeed() {
     const posts = data?.pages.flatMap((page) => page.items) || [];
 
     if (isPending) {
-        return <Loader2 className="mx-auto animate-spin" />;
+        return <LoadingSkeleton />;
     }
 
     if (error) {
         return (
             <p className="text-center text-destructive">
-                An error occured while loading posts
+                An error occurred while loading posts
+            </p>
+        );
+    }
+
+    if (data && posts.length < 1 && !hasNextPage) {
+        return (
+            <p className="text-center text-muted-foreground">
+                No one has posted anything yet
             </p>
         );
     }
 
     return (
         <InfiniteScrollContainer
-            onBottomReached={() => {
-                console.log("hasNextPage", hasNextPage);
-                console.log("isFetching", isFetching);
-                hasNextPage && !isFetching && fetchNextPage();
-            }}
+            onBottomReached={() =>
+                hasNextPage && !isFetching && fetchNextPage()
+            }
             className="space-y-5"
         >
             {posts.map((post) => (

@@ -3,14 +3,15 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import { Placeholder } from "@tiptap/extension-placeholder";
-import { createPost } from "@/components/posts/editor/actions";
 import { Avatar } from "@/components/ui/avatar";
 import { useSession } from "@/app/(main)/SessionProvider";
-import { Button } from "@/components/ui/button";
 import "./styles.css";
+import { useCreatePost } from "@/components/posts/editor/mutations";
+import { LoadingButton } from "@/components/ui/loading-button";
 
 export default function PostEditor() {
     const { user } = useSession();
+    const createPost = useCreatePost();
 
     const editor = useEditor({
         extensions: [
@@ -29,11 +30,17 @@ export default function PostEditor() {
             blockSeparator: "\n",
         }) || "";
 
-    async function onSubmit() {
-        await createPost({
-            content: input,
-        });
-        editor?.commands.clearContent();
+    function onSubmit() {
+        createPost.mutate(
+            {
+                content: input,
+            },
+            {
+                onSuccess: () => {
+                    editor?.commands.clearContent();
+                },
+            },
+        );
     }
 
     return (
@@ -50,14 +57,15 @@ export default function PostEditor() {
                 />
             </div>
             <div className="flex justify-end">
-                <Button
+                <LoadingButton
+                    loading={createPost.isPending}
                     type="submit"
                     onClick={onSubmit}
                     disabled={!input.trim()}
                     className="min-w-20"
                 >
                     Create Post
-                </Button>
+                </LoadingButton>
             </div>
         </div>
     );

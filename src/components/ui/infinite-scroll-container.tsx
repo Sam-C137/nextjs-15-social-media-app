@@ -26,6 +26,6 @@ const InfiniteScrollContainer = React.forwardRef<
         </div>
     );
 });
-InfiniteScrollContainer.displayName = "IntersectionObserverEntry";
+InfiniteScrollContainer.displayName = "InfiniteScrollContainer";
 
 export { InfiniteScrollContainer };
