@@ -8,17 +8,26 @@ import {
 import { createPost } from "@/components/posts/editor/actions";
 import { Paginated } from "@/lib/utils";
 import { PostData } from "@/lib/types";
+import { useSession } from "@/app/(main)/SessionProvider";
 
 export function useCreatePost() {
     const { toast } = useToast();
     const client = useQueryClient();
+    const { user } = useSession();
 
     return useMutation({
         mutationFn: createPost,
         onSuccess: async (newPost) => {
-            const queryFilter: QueryFilters = {
-                queryKey: ["post-feed", "for-you"],
-            };
+            const queryFilter = {
+                queryKey: ["post-feed"],
+                predicate(query) {
+                    return (
+                        query.queryKey.includes("for-you") ||
+                        (query.queryKey.includes("user-posts") &&
+                            query.queryKey.includes(user.id))
+                    );
+                },
+            } satisfies QueryFilters;
 
             await client.cancelQueries(queryFilter);
 
@@ -45,7 +54,7 @@ export function useCreatePost() {
             await client.invalidateQueries({
                 queryKey: queryFilter.queryKey,
                 predicate(query) {
-                    return !query.state.data;
+                    return queryFilter.predicate(query) && !query.state.data;
                 },
             });
 

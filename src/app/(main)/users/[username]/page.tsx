@@ -1,6 +1,6 @@
 "use server";
 
-import { cache } from "react";
+import { cache, Suspense } from "react";
 import prisma from "@/lib/prisma";
 import { FollowerInfo, selectUserData, UserData } from "@/lib/types";
 import { notFound } from "next/navigation";
@@ -13,6 +13,8 @@ import { formatNumber } from "@/lib/utils";
 import FollowerCount from "@/app/(main)/users/[username]/FollowerCount";
 import { Button } from "@/components/ui/button";
 import FollowButton from "@/components/FollowButton";
+import UserPostsFeed from "@/app/(main)/users/[username]/UserPostsFeed";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface PageProps {
     params: { username: string };
@@ -44,7 +46,27 @@ export default async function Page({ params: { username } }: PageProps) {
     return (
         <main className="flex w-full min-w-0 gap-5">
             <div className="w-full min-w-0 space-y-5">
-                <UserProfile user={user} loggedInUserId={loggedInUser.id} />
+                <Suspense
+                    fallback={
+                        <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-5 shadow-sm">
+                            <Skeleton className="mx-auto size-[250px] rounded-full" />
+                            <div className="5 space-y-2">
+                                <Skeleton className="h-10 w-full rounded" />
+                                <Skeleton className="h-10 w-full rounded" />
+                            </div>
+                        </div>
+                    }
+                >
+                    <UserProfile user={user} loggedInUserId={loggedInUser.id} />
+                </Suspense>
+                <div className="rounded-2xl bg-card p-5 shadow-sm">
+                    <h2 className="text-center text-2xl font-bold">
+                        {user.id === loggedInUser.id
+                            ? "Your posts"
+                            : `${user.displayName}'s posts`}
+                    </h2>
+                </div>
+                <UserPostsFeed userId={user.id} />
             </div>
             <TrendsSidebar />
         </main>

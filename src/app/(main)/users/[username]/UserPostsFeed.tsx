@@ -1,0 +1,81 @@
+"use client";
+
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import PostItem from "@/components/posts/post-item/PostItem";
+import ky from "@/lib/ky";
+import { Paginated } from "@/lib/utils";
+import { PostData } from "@/lib/types";
+import { InfiniteScrollContainer } from "@/components/ui/infinite-scroll-container";
+import { LoadingSkeleton } from "@/components/posts/LoadingSkeleton";
+
+interface UserPostProps {
+    userId: string;
+}
+
+export default function UserPostsFeed({ userId }: UserPostProps) {
+    const {
+        data,
+        isPending,
+        error,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+    } = useInfiniteQuery({
+        queryKey: ["post-feed", "user-posts", userId],
+        queryFn: ({ pageParam }) =>
+            ky
+                .get(
+                    `/api/users/${userId}/posts`,
+                    pageParam
+                        ? {
+                              searchParams: {
+                                  cursor: pageParam,
+                              },
+                          }
+                        : {},
+                )
+                .json<Paginated<PostData>>(),
+        initialPageParam: null as string | null,
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+    });
+
+    const posts = data?.pages.flatMap((page) => page.items) || [];
+
+    if (isPending) {
+        return <LoadingSkeleton />;
+    }
+
+    if (error) {
+        return (
+            <p className="text-center text-destructive">
+                This user hasn&apos;t posted anything yet.
+            </p>
+        );
+    }
+
+    if (data && posts.length < 1 && !hasNextPage) {
+        return (
+            <p className="text-center text-muted-foreground">
+                No one has posted anything yet
+            </p>
+        );
+    }
+
+    return (
+        <InfiniteScrollContainer
+            onBottomReached={() =>
+                hasNextPage && !isFetching && fetchNextPage()
+            }
+            className="space-y-5"
+        >
+            {posts.map((post) => (
+                <PostItem post={post} key={post.id} />
+            ))}
+            {isFetchingNextPage && (
+                <Loader2 className="mx-auto my-3 animate-spin" />
+            )}
+        </InfiniteScrollContainer>
+    );
+}
