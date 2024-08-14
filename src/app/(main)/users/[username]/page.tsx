@@ -10,11 +10,12 @@ import TrendsSidebar from "@/components/TrendsSidebar";
 import { Avatar } from "@/components/ui/avatar";
 import { formatDate } from "date-fns";
 import { formatNumber } from "@/lib/utils";
-import FollowerCount from "@/app/(main)/users/[username]/FollowerCount";
+import FollowerCount from "@/components/FollowerCount";
 import { Button } from "@/components/ui/button";
 import FollowButton from "@/components/FollowButton";
 import UserPostsFeed from "@/app/(main)/users/[username]/UserPostsFeed";
 import { Skeleton } from "@/components/ui/skeleton";
+import Linkify from "@/components/Linkify";
 
 interface PageProps {
     params: { username: string };
@@ -146,9 +147,11 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
             {user.bio && (
                 <>
                     <hr />
-                    <div className="overflow-hidden whitespace-pre-line break-words">
-                        {user.bio}
-                    </div>
+                    <Linkify>
+                        <div className="overflow-hidden whitespace-pre-line break-words">
+                            {user.bio}
+                        </div>
+                    </Linkify>
                 </>
             )}
         </div>

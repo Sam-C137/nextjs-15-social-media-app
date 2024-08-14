@@ -6,6 +6,8 @@ import { Avatar } from "@/components/ui/avatar";
 import { relativeDate } from "@/lib/utils";
 import { useSession } from "@/app/(main)/SessionProvider";
 import MoreOptions from "@/components/posts/post-item/MoreOptions";
+import Linkify from "@/components/Linkify";
+import UserToolTip from "@/components/UserTooltip";
 
 interface PostProps {
     post: PostData;
@@ -18,19 +20,23 @@ export default function PostItem({ post }: PostProps) {
         <article className="group/post space-y-5 rounded-2xl bg-card p-5 shadow-sm">
             <span className="mb-2 flex justify-between gap-3">
                 <div className="flex flex-wrap gap-3">
-                    <Link href={`users/${post.user.username}`}>
-                        <Avatar
-                            src={post.user.avatarUrl}
-                            fallback={post.user.username}
-                        />
-                    </Link>
-                    <div>
-                        <Link
-                            href={`users/${post.user.username}`}
-                            className="block font-medium hover:underline"
-                        >
-                            {post.user.displayName}
+                    <UserToolTip user={post.user}>
+                        <Link href={`users/${post.user.username}`}>
+                            <Avatar
+                                src={post.user.avatarUrl}
+                                fallback={post.user.username}
+                            />
                         </Link>
+                    </UserToolTip>
+                    <div>
+                        <UserToolTip user={post.user}>
+                            <Link
+                                href={`users/${post.user.username}`}
+                                className="block font-medium hover:underline"
+                            >
+                                {post.user.displayName}
+                            </Link>
+                        </UserToolTip>
                         <Link
                             href={`posts/${post.id}`}
                             className="block text-sm text-muted-foreground hover:underline"
@@ -46,9 +52,11 @@ export default function PostItem({ post }: PostProps) {
                     />
                 )}
             </span>
-            <span className="whitespace-pre-line break-words">
-                {post.content}
-            </span>
+            <Linkify>
+                <span className="whitespace-pre-line break-words">
+                    {post.content}
+                </span>
+            </Linkify>
         </article>
     );
 }
