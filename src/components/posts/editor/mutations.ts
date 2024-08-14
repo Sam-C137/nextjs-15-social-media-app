@@ -6,7 +6,7 @@ import {
     useQueryClient,
 } from "@tanstack/react-query";
 import { createPost } from "@/components/posts/editor/actions";
-import { Paginated } from "@/lib/helpers.types";
+import { Paginated } from "@/lib/utils";
 import { PostData } from "@/lib/types";
 
 export function useCreatePost() {

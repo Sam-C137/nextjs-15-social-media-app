@@ -1,8 +1,8 @@
+import { NextRequest } from "next/server";
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
-import { postInclude } from "@/lib/types";
-import { NextRequest } from "next/server";
 import { Paginated } from "@/lib/utils";
+import { postInclude } from "@/lib/types";
 
 export async function GET(req: NextRequest) {
     try {
@@ -16,16 +16,23 @@ export async function GET(req: NextRequest) {
         }
 
         const posts = await prisma.post.findMany({
-            include: postInclude(user.id),
-            orderBy: {
-                createdAt: "desc",
+            where: {
+                user: {
+                    followers: {
+                        some: {
+                            followerId: user.id,
+                        },
+                    },
+                },
             },
+            orderBy: { createdAt: "desc" },
             take: pageSize + 1,
             cursor: cursor
                 ? {
                       id: cursor,
                   }
                 : undefined,
+            include: postInclude(user.id),
         });
 
         const nextCursor = posts.length > pageSize ? posts[pageSize].id : null;

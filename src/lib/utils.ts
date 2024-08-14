@@ -29,3 +29,18 @@ export function formatNumber(n: number): string {
         maximumFractionDigits: 1,
     }).format(n);
 }
+
+export class Paginated<T> {
+    public items: T[];
+    public nextCursor: string | null;
+
+    constructor(items: T[], nextCursor: string | null) {
+        this.items = items;
+        this.nextCursor = nextCursor;
+    }
+
+    public slice?(start: number, end: number) {
+        this.items = this.items.slice(start, end);
+        return this;
+    }
+}

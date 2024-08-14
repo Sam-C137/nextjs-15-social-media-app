@@ -1,24 +1,47 @@
 import { Prisma } from "@prisma/client";
 
-export const postInclude = {
-    user: {
-        select: {
-            username: true,
-            displayName: true,
-            avatarUrl: true,
+export function postInclude(loggedInUserId: string) {
+    return {
+        user: {
+            select: selectUserData(loggedInUserId),
         },
-    },
-} satisfies Prisma.PostInclude;
+    } satisfies Prisma.PostInclude;
+}
 
 export type PostData = Prisma.PostGetPayload<{
-    include: typeof postInclude;
+    include: ReturnType<typeof postInclude>;
 }>;
 
-export const userDataSelect = {
-    id: true,
-    username: true,
-    displayName: true,
-    avatarUrl: true,
-} satisfies Prisma.UserSelect;
+export function selectUserData(loggedInUserId: string) {
+    return {
+        id: true,
+        username: true,
+        displayName: true,
+        avatarUrl: true,
+        bio: true,
+        createdAt: true,
+        followers: {
+            where: {
+                followerId: loggedInUserId,
+            },
+            select: {
+                followerId: true,
+            },
+        },
+        _count: {
+            select: {
+                followers: true,
+                posts: true,
+            },
+        },
+    } satisfies Prisma.UserSelect;
+}
 
-// export const  UserData =
+export type UserData = Prisma.UserGetPayload<{
+    select: ReturnType<typeof selectUserData>;
+}>;
+
+export type FollowerInfo = {
+    followers: number;
+    isFollowedByUser: boolean;
+};

@@ -16,7 +16,7 @@ export default function PostItem({ post }: PostProps) {
 
     return (
         <article className="group/post space-y-5 rounded-2xl bg-card p-5 shadow-sm">
-            <span className="flex justify-between gap-3">
+            <span className="mb-2 flex justify-between gap-3">
                 <div className="flex flex-wrap gap-3">
                     <Link href={`users/${post.user.username}`}>
                         <Avatar

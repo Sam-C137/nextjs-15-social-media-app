@@ -10,10 +10,11 @@ interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
     src: Optional<string>;
     fallback: string;
     className?: string;
+    size?: number;
 }
 
 const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>(
-    ({ src, fallback, className, ...props }, ref) => {
+    ({ src, fallback, className, size, ...props }, ref) => {
         return (
             <span
                 className={cn(
@@ -27,6 +28,8 @@ const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>(
                     src={src || avatarPlaceholder}
                     className="h-full w-full rounded-[50%] object-cover"
                     alt={fallback}
+                    width={size ?? 48}
+                    height={size ?? 48}
                 />
             </span>
         );

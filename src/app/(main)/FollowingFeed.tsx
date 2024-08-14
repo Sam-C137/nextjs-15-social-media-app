@@ -1,15 +1,15 @@
 "use client";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import PostItem from "@/components/posts/post-item/PostItem";
 import ky from "@/lib/ky";
 import { Paginated } from "@/lib/utils";
 import { PostData } from "@/lib/types";
-import { InfiniteScrollContainer } from "@/components/ui/infinite-scroll-container";
 import { LoadingSkeleton } from "@/components/posts/LoadingSkeleton";
+import { InfiniteScrollContainer } from "@/components/ui/infinite-scroll-container";
+import PostItem from "@/components/posts/post-item/PostItem";
+import { Loader2 } from "lucide-react";
 
-export default function ForYouFeed() {
+export default function FollowingFeed() {
     const {
         data,
         isPending,
@@ -19,11 +19,11 @@ export default function ForYouFeed() {
         isFetching,
         isFetchingNextPage,
     } = useInfiniteQuery({
-        queryKey: ["post-feed", "for-you"],
+        queryKey: ["post-feed", "following"],
         queryFn: ({ pageParam }) =>
             ky
                 .get(
-                    "/api/posts/for-you",
+                    "/api/posts/following",
                     pageParam
                         ? {
                               searchParams: {
@@ -54,7 +54,7 @@ export default function ForYouFeed() {
     if (data && posts.length < 1 && !hasNextPage) {
         return (
             <p className="text-center text-muted-foreground">
-                No one has posted anything yet
+                No posts found. Start following people to see their posts here
             </p>
         );
     }

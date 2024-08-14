@@ -17,6 +17,6 @@ export async function createPost(post: { content: string }) {
             content,
             userId: user.id,
         },
-        include: postInclude,
+        include: postInclude(user.id),
     });
 }

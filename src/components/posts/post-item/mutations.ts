@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { deletePost } from "@/components/posts/post-item/actions";
-import { Paginated } from "@/lib/helpers.types";
+import { Paginated } from "@/lib/utils";
 import { PostData } from "@/lib/types";
 
 export function useDeletePost() {

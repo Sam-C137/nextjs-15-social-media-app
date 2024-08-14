@@ -19,6 +19,6 @@ export async function deletePost(id: string) {
 
     return prisma.post.delete({
         where: { id },
-        include: postInclude,
+        include: postInclude(user.id),
     });
 }
