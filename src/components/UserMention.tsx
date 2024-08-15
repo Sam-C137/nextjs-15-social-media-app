@@ -14,7 +14,8 @@ interface UserMentionProps extends React.PropsWithChildren {
 export default function UserMention({ children, username }: UserMentionProps) {
     const { data } = useQuery({
         queryKey: ["user-data", username],
-        queryFn: ky.get(`/api/users/username/${username}`).json<UserData>,
+        queryFn: () =>
+            ky.get(`/api/users/username/${username}`).json<UserData>(),
         retry(failureCount, error) {
             if (error instanceof HTTPError && error.response.status === 404) {
                 return false;

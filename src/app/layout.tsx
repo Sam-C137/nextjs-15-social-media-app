@@ -4,6 +4,9 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import TanstackQueryProvider from "@/app/tanstack.provider";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { fileRouter } from "@/app/api/uploadthing/core";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -30,6 +33,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable}`}>
+                <NextSSRPlugin routerConfig={extractRouterConfig(fileRouter)} />
                 <TanstackQueryProvider>
                     <ThemeProvider
                         attribute="class"

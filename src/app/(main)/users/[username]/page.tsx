@@ -1,6 +1,6 @@
 "use server";
 
-import { cache, Suspense } from "react";
+import { cache } from "react";
 import prisma from "@/lib/prisma";
 import { FollowerInfo, selectUserData, UserData } from "@/lib/types";
 import { notFound } from "next/navigation";
@@ -11,11 +11,10 @@ import { Avatar } from "@/components/ui/avatar";
 import { formatDate } from "date-fns";
 import { formatNumber } from "@/lib/utils";
 import FollowerCount from "@/components/FollowerCount";
-import { Button } from "@/components/ui/button";
 import FollowButton from "@/components/FollowButton";
 import UserPostsFeed from "@/app/(main)/users/[username]/UserPostsFeed";
-import { Skeleton } from "@/components/ui/skeleton";
 import Linkify from "@/components/Linkify";
+import EditProfileButton from "@/app/(main)/users/[username]/EditProfileButton";
 
 interface PageProps {
     params: { username: string };
@@ -47,19 +46,7 @@ export default async function Page({ params: { username } }: PageProps) {
     return (
         <main className="flex w-full min-w-0 gap-5">
             <div className="w-full min-w-0 space-y-5">
-                <Suspense
-                    fallback={
-                        <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-5 shadow-sm">
-                            <Skeleton className="mx-auto size-[250px] rounded-full" />
-                            <div className="5 space-y-2">
-                                <Skeleton className="h-10 w-full rounded" />
-                                <Skeleton className="h-10 w-full rounded" />
-                            </div>
-                        </div>
-                    }
-                >
-                    <UserProfile user={user} loggedInUserId={loggedInUser.id} />
-                </Suspense>
+                <UserProfile user={user} loggedInUserId={loggedInUser.id} />
                 <div className="rounded-2xl bg-card p-5 shadow-sm">
                     <h2 className="text-center text-2xl font-bold">
                         {user.id === loggedInUser.id
@@ -136,7 +123,7 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
                     </span>
                 </div>
                 {user.id === loggedInUserId ? (
-                    <Button>Edit Profile</Button>
+                    <EditProfileButton user={user} />
                 ) : (
                     <FollowButton
                         userId={user.id}
