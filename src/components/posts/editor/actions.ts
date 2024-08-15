@@ -1,14 +1,11 @@
 "use server";
 
-import { creatPostSchema } from "@/lib/validations";
+import { CreatePostDetails, creatPostSchema } from "@/lib/validations";
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { postInclude } from "@/lib/types";
 
-export async function createPost(post: {
-    content: string;
-    mediaIds: string[];
-}) {
+export async function createPost(post: CreatePostDetails) {
     const { user } = await validateRequest();
 
     if (!user) throw new Error("Unauthorized");

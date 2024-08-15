@@ -35,3 +35,9 @@ export const updateUserProfileSchema = z.object({
 });
 
 export type UpdateProfileDetails = z.infer<typeof updateUserProfileSchema>;
+
+export const createCommentSchema = z.object({
+    content: requiredString,
+});
+
+export type CreateCommentDetails = z.infer<typeof createCommentSchema>;

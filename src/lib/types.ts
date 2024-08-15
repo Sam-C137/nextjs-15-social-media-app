@@ -25,6 +25,7 @@ export function postInclude(loggedInUserId: string) {
         _count: {
             select: {
                 likes: true,
+                comments: true,
             },
         },
     } satisfies Prisma.PostInclude;
@@ -61,6 +62,18 @@ export function selectUserData(loggedInUserId: string) {
 
 export type UserData = Prisma.UserGetPayload<{
     select: ReturnType<typeof selectUserData>;
+}>;
+
+export function commentInclude(loggedInUserId: string) {
+    return {
+        user: {
+            select: selectUserData(loggedInUserId),
+        },
+    } satisfies Prisma.CommentInclude;
+}
+
+export type CommentData = Prisma.CommentGetPayload<{
+    include: ReturnType<typeof commentInclude>;
 }>;
 
 export type FollowerInfo = {

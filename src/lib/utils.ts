@@ -44,3 +44,18 @@ export class Paginated<T> {
         return this;
     }
 }
+
+export class ReversePaginated<T> {
+    public items: T[];
+    public previousCursor: string | null;
+
+    constructor(items: T[], previousCursor: string | null) {
+        this.items = items;
+        this.previousCursor = previousCursor;
+    }
+
+    public slice?(start: number, end: number) {
+        this.items = this.items.slice(start, end);
+        return this;
+    }
+}
