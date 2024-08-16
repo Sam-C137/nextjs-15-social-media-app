@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Bookmark, Home, Mail } from "lucide-react";
-import NotificationButton from "@/components/NotificationButton";
+import { Bookmark, Home } from "lucide-react";
+import NotificationButton from "@/components/menu/NotificationButton";
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
+import MessageButton from "@/components/menu/MessageButton";
+import streamServerClient from "@/lib/stream";
 
 interface MenubarProps {
     className?: string;
@@ -13,12 +15,15 @@ export default async function Menubar({ className }: MenubarProps) {
     const { user } = await validateRequest();
     if (!user) return;
 
-    const unreadCount = await prisma.notification.count({
-        where: {
-            recipientId: user.id,
-            read: false,
-        },
-    });
+    const [unreadNotificationCount, unreadMessagesCount] = await Promise.all([
+        prisma.notification.count({
+            where: {
+                recipientId: user.id,
+                read: false,
+            },
+        }),
+        streamServerClient.getUnreadCount(user.id),
+    ]);
 
     return (
         <div className={className}>
@@ -28,27 +33,21 @@ export default async function Menubar({ className }: MenubarProps) {
                 className="flex items-center justify-start gap-3"
                 asChild
             >
-                <Link href="/">
+                <Link href="/public">
                     <Home />
                     <span className="hidden lg:inline">Home</span>
                 </Link>
             </Button>
             <NotificationButton
                 initialState={{
-                    unreadCount,
+                    unreadCount: unreadNotificationCount,
                 }}
             />
-            <Button
-                variant="ghost"
-                title="Messages"
-                className="flex items-center justify-start gap-3"
-                asChild
-            >
-                <Link href="/messages">
-                    <Mail />
-                    <span className="hidden lg:inline">Messages</span>
-                </Link>
-            </Button>
+            <MessageButton
+                initialState={{
+                    unreadCount: unreadMessagesCount.total_unread_count,
+                }}
+            />
             <Button
                 variant="ghost"
                 title="Bookmarks"

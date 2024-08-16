@@ -29,7 +29,7 @@ import { useRef, useState } from "react";
 import { Label } from "@/components/ui/label";
 import avatarPlaceholder from "@/assets/avatar-placeholder.png";
 import { Camera } from "lucide-react";
-import CropImageDialog from "@/components/CropImageDialog";
+import CropImageDialog from "@/components/shared/CropImageDialog";
 import Resizer from "react-image-file-resizer";
 
 interface EditProfileDialogProps {

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Bookmarks from "@/app/(main)/bookmarks/Bookmarks";
-import TrendsSidebar from "@/components/TrendsSidebar";
+import TrendsSidebar from "@/components/navigation/TrendsSidebar";
 
 interface PageProps {}
 

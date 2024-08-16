@@ -7,8 +7,8 @@ import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
 import { unstable_cache } from "next/cache";
 import { formatNumber } from "@/lib/utils";
-import FollowButton from "@/components/FollowButton";
-import UserToolTip from "@/components/UserTooltip";
+import FollowButton from "@/components/shared/FollowButton";
+import UserToolTip from "@/components/shared/UserTooltip";
 
 export default function TrendsSidebar() {
     return (

@@ -1,5 +1,5 @@
 import PostEditor from "@/components/posts/editor/PostEditor";
-import TrendsSidebar from "@/components/TrendsSidebar";
+import TrendsSidebar from "@/components/navigation/TrendsSidebar";
 import ForYouFeed from "@/app/(main)/ForYouFeed";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FollowingFeed from "@/app/(main)/FollowingFeed";

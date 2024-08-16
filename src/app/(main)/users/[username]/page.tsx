@@ -6,14 +6,14 @@ import { FollowerInfo, selectUserData, UserData } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { validateRequest } from "@/auth";
 import { Metadata } from "next";
-import TrendsSidebar from "@/components/TrendsSidebar";
+import TrendsSidebar from "@/components/navigation/TrendsSidebar";
 import { Avatar } from "@/components/ui/avatar";
 import { formatDate } from "date-fns";
 import { formatNumber } from "@/lib/utils";
-import FollowerCount from "@/components/FollowerCount";
-import FollowButton from "@/components/FollowButton";
+import FollowerCount from "@/components/shared/FollowerCount";
+import FollowButton from "@/components/shared/FollowButton";
 import UserPostsFeed from "@/app/(main)/users/[username]/UserPostsFeed";
-import Linkify from "@/components/Linkify";
+import Linkify from "@/components/shared/Linkify";
 import EditProfileButton from "@/app/(main)/users/[username]/EditProfileButton";
 
 interface PageProps {

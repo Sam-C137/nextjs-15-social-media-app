@@ -1,5 +1,5 @@
 import { CommentData } from "@/lib/types";
-import UserToolTip from "@/components/UserTooltip";
+import UserToolTip from "@/components/shared/UserTooltip";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
 import { relativeDate } from "@/lib/utils";

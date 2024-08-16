@@ -1,6 +1,6 @@
 import { LinkIt, LinkItUrl } from "react-linkify-it";
 import Link from "next/link";
-import UserMention from "@/components/UserMention";
+import UserMention from "@/components/shared/UserMention";
 
 export default function Linkify({ children }: React.PropsWithChildren) {
     return (

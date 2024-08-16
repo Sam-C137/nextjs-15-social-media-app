@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import TrendsSidebar from "@/components/TrendsSidebar";
+import TrendsSidebar from "@/components/navigation/TrendsSidebar";
 import Notifications from "@/app/(main)/notifications/Notifications";
 
 interface PageProps {}

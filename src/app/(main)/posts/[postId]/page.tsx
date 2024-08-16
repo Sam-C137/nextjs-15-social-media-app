@@ -4,12 +4,12 @@ import { postInclude, UserData } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { validateRequest } from "@/auth";
 import PostItem from "@/components/posts/post-item/PostItem";
-import UserToolTip from "@/components/UserTooltip";
+import UserToolTip from "@/components/shared/UserTooltip";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
 import { Loader2 } from "lucide-react";
-import Linkify from "@/components/Linkify";
-import FollowButton from "@/components/FollowButton";
+import Linkify from "@/components/shared/Linkify";
+import FollowButton from "@/components/shared/FollowButton";
 
 interface PageProps {
     params: {

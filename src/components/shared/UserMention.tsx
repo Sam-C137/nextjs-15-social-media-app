@@ -5,7 +5,7 @@ import ky from "@/lib/ky";
 import { UserData } from "@/lib/types";
 import { HTTPError } from "ky";
 import Link from "next/link";
-import UserToolTip from "@/components/UserTooltip";
+import UserToolTip from "@/components/shared/UserTooltip";
 
 interface UserMentionProps extends React.PropsWithChildren {
     username: string;

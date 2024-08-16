@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/tooltip";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
-import FollowButton from "@/components/FollowButton";
-import Linkify from "@/components/Linkify";
-import FollowerCount from "@/components/FollowerCount";
+import FollowButton from "@/components/shared/FollowButton";
+import Linkify from "@/components/shared/Linkify";
+import FollowerCount from "@/components/shared/FollowerCount";
 
 interface UserToolTipProps extends React.PropsWithChildren {
     user: UserData;
