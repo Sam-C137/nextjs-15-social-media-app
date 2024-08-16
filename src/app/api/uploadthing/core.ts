@@ -3,6 +3,7 @@ import { validateRequest } from "@/auth";
 import { UploadThingError } from "@uploadthing/shared";
 import prisma from "@/lib/prisma";
 import { UTApi } from "uploadthing/server";
+import streamServerClient from "@/lib/stream";
 
 const f = createUploadthing();
 
@@ -33,14 +34,22 @@ export const fileRouter = {
                 `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
             );
 
-            await prisma.user.update({
-                where: {
+            await Promise.all([
+                prisma.user.update({
+                    where: {
+                        id: user.id,
+                    },
+                    data: {
+                        avatarUrl: newUrl,
+                    },
+                }),
+                streamServerClient.partialUpdateUser({
                     id: user.id,
-                },
-                data: {
-                    avatarUrl: newUrl,
-                },
-            });
+                    set: {
+                        image: newUrl,
+                    },
+                }),
+            ]);
 
             return {
                 avatarUrl: newUrl,
