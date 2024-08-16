@@ -75,6 +75,10 @@
         @apply bg-background text-foreground;
     }
 
+    body:has(.screen-fit) {
+        overflow: hidden;
+    }
+
     .no-ms-password-reveal::-ms-reveal {
         display: none;
     }

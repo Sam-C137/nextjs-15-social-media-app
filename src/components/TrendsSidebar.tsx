@@ -61,7 +61,7 @@ async function WhoToFollow() {
                             />
                             <div>
                                 <p className="line-clamp-1 break-all font-semibold hover:underline">
-                                    {user.username}
+                                    {user.displayName}
                                 </p>
                                 <p className="line-clamp-1 break-all text-muted-foreground">
                                     @{user.username}

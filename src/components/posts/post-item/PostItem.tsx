@@ -13,7 +13,7 @@ import Image from "next/image";
 import LikeButton from "@/components/posts/LikeButton";
 import BookmarkButton from "@/components/posts/BookmarkButton";
 import { useState } from "react";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, X } from "lucide-react";
 import Comments from "@/components/comments/Comments";
 
 interface PostProps {
@@ -124,15 +124,30 @@ interface MediaPreviewProps {
 }
 
 function MediaPreview({ media }: MediaPreviewProps) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     if (media.type === "IMAGE") {
         return (
-            <Image
-                src={media.url}
-                alt="Attachment"
-                width={300}
-                height={500}
-                className="mx-auto size-fit max-h-[30rem] rounded-2xl"
-            />
+            <>
+                <Image
+                    src={media.url}
+                    alt="Attachment"
+                    width={300}
+                    height={500}
+                    className="mx-auto size-fit max-h-[30rem] cursor-pointer rounded-2xl"
+                    onClick={() => {
+                        setIsModalOpen(true);
+                    }}
+                />
+                {isModalOpen && (
+                    <ImageModal
+                        src={media.url}
+                        onClose={() => {
+                            setIsModalOpen(false);
+                        }}
+                    />
+                )}
+            </>
         );
     }
 
@@ -151,6 +166,36 @@ function MediaPreview({ media }: MediaPreviewProps) {
     return <p className="text-destructive">Unsupported media type</p>;
 }
 
+interface ImageModalProps {
+    src: string;
+    onClose: () => void;
+}
+
+function ImageModal({ src, onClose }: ImageModalProps) {
+    return (
+        <div
+            onClick={onClose}
+            className="screen-fit fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
+        >
+            <div onClick={(e) => e.stopPropagation()} className="relative">
+                <button
+                    onClick={onClose}
+                    className="absolute right-3 top-3 rounded-full bg-foreground p-1.5 text-background transition-colors hover:bg-foreground/60"
+                >
+                    <X size={20} />
+                </button>
+                <Image
+                    src={src}
+                    alt="Expanded Attachment"
+                    width={800}
+                    height={800}
+                    className="rounded-2xl"
+                />
+            </div>
+        </div>
+    );
+}
+
 interface CommentButtonProps {
     post: PostData;
     onClick: () => void;
@@ -162,7 +207,9 @@ function CommentButton({ post, onClick }: CommentButtonProps) {
             <MessageSquare className="size-5" />
             <span className="text-sm font-medium tabular-nums">
                 {post._count.comments}{" "}
-                <span className="hidden sm:inline">comments</span>
+                <span className="hidden sm:inline">
+                    {post._count.comments === 1 ? "comment" : "comments"}
+                </span>
             </span>
         </button>
     );
