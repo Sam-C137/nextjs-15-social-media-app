@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-const LoadingSkeleton: React.FC = () => {
+const PostLoadingSkeleton: React.FC = () => {
     return (
         <div className="space-y-5">
             <LoadingItem />
@@ -25,4 +25,4 @@ function LoadingItem() {
     );
 }
 
-export { LoadingSkeleton };
+export { PostLoadingSkeleton };

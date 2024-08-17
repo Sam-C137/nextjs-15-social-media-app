@@ -7,7 +7,7 @@ import ky from "@/lib/ky";
 import { Paginated } from "@/lib/utils";
 import { PostData } from "@/lib/types";
 import { InfiniteScrollContainer } from "@/components/ui/infinite-scroll-container";
-import { LoadingSkeleton } from "@/components/posts/LoadingSkeleton";
+import { PostLoadingSkeleton } from "@/components/posts/PostLoadingSkeleton";
 
 export default function Bookmarks() {
     const {
@@ -40,7 +40,7 @@ export default function Bookmarks() {
     const posts = data?.pages.flatMap((page) => page.items) || [];
 
     if (isPending) {
-        return <LoadingSkeleton />;
+        return <PostLoadingSkeleton />;
     }
 
     if (error) {

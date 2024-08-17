@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import ky from "@/lib/ky";
 import { Paginated } from "@/lib/utils";
 import { PostData } from "@/lib/types";
-import { LoadingSkeleton } from "@/components/posts/LoadingSkeleton";
+import { PostLoadingSkeleton } from "@/components/posts/PostLoadingSkeleton";
 import { InfiniteScrollContainer } from "@/components/ui/infinite-scroll-container";
 import PostItem from "@/components/posts/post-item/PostItem";
 import { Loader2 } from "lucide-react";
@@ -41,7 +41,7 @@ export default function SearchResults({ query }: SearchResultsProps) {
     const posts = data?.pages.flatMap((page) => page.items) || [];
 
     if (isPending) {
-        return <LoadingSkeleton />;
+        return <PostLoadingSkeleton />;
     }
 
     if (error) {

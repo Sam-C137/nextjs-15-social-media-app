@@ -10,7 +10,7 @@ import ky from "@/lib/ky";
 import { Paginated } from "@/lib/utils";
 import { NotificationData } from "@/lib/types";
 import { InfiniteScrollContainer } from "@/components/ui/infinite-scroll-container";
-import { LoadingSkeleton } from "@/components/posts/LoadingSkeleton";
+import { PostLoadingSkeleton } from "@/components/posts/PostLoadingSkeleton";
 import NotificationItem from "@/app/(main)/notifications/NotificationItem";
 import { useEffect } from "react";
 
@@ -61,7 +61,7 @@ export default function Notifications() {
     const notifications = data?.pages.flatMap((page) => page.items) || [];
 
     if (isPending) {
-        return <LoadingSkeleton />;
+        return <PostLoadingSkeleton />;
     }
 
     if (error) {
