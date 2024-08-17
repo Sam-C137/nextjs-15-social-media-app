@@ -33,7 +33,7 @@ export default async function Menubar({ className }: MenubarProps) {
                 className="flex items-center justify-start gap-3"
                 asChild
             >
-                <Link href="/public">
+                <Link href="/">
                     <Home />
                     <span className="hidden lg:inline">Home</span>
                 </Link>

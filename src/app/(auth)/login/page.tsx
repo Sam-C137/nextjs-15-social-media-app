@@ -3,6 +3,7 @@ import LoginForm from "@/app/(auth)/login/LoginForm";
 import Link from "next/link";
 import Image from "next/image";
 import loginImage from "@/assets/login-image.jpg";
+import GoogleSignInButton from "@/app/(auth)/login/google/GoogleSignInButton";
 
 export const metadata: Metadata = {
     title: "Login",
@@ -16,6 +17,12 @@ export default function LoginPage() {
                     <h1 className="text-center text-3xl font-bold">
                         Login to bugbook
                     </h1>
+                    <GoogleSignInButton />
+                    <div className="flex items-center gap-3">
+                        <div className="h-px flex-1 bg-muted"></div>
+                        <span>OR</span>
+                        <div className="h-px flex-1 bg-muted"></div>
+                    </div>
                     <LoginForm className="space-y-5" />
                     <div className="space-y-5 text-center">
                         Don&apos;t have an account?{" "}

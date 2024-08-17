@@ -30,6 +30,13 @@ export function formatNumber(n: number): string {
     }).format(n);
 }
 
+export function slugify(input: string): string {
+    return input
+        .toLowerCase()
+        .replace(/ /g, "-")
+        .replace(/[^a-z0-9-]/g, "");
+}
+
 export class Paginated<T> {
     public items: T[];
     public nextCursor: string | null;

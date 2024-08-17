@@ -5,6 +5,9 @@ const envSchema = z.object({
     STREAM_SECRET: z.string(),
     CRON_SECRET: z.string(),
     NEXT_PUBLIC_UPLOADTHING_APP_ID: z.string(),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
+    NEXT_PUBLIC_BASE_URL: z.string(),
 });
 
 envSchema.parse(envSchema);

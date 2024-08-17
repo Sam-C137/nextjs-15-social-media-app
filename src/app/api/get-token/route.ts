@@ -7,7 +7,6 @@ export async function GET() {
         if (!user) {
             return Response.json({ error: "Unauthorized" }, { status: 401 });
         }
-        console.log("Calling get-toke for user", user.id);
 
         const expirationTime = Math.floor(Date.now() / 1000) + 60 * 60;
         const issuedAt = Math.floor(Date.now() / 1000) - 60;
