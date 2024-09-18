@@ -8,6 +8,7 @@ const envSchema = z.object({
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
     NEXT_PUBLIC_BASE_URL: z.string(),
+    UPLOADTHING_TOKEN: z.string(),
 });
 
 envSchema.parse(envSchema);
