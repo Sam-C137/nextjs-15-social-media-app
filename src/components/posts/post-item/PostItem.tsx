@@ -13,8 +13,15 @@ import Image from "next/image";
 import LikeButton from "@/components/posts/LikeButton";
 import BookmarkButton from "@/components/posts/BookmarkButton";
 import { useState } from "react";
-import { MessageSquare, X } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import Comments from "@/components/comments/Comments";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface PostProps {
     post: PostData;
@@ -173,26 +180,25 @@ interface ImageModalProps {
 
 function ImageModal({ src, onClose }: ImageModalProps) {
     return (
-        <div
-            onClick={onClose}
-            className="screen-fit fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
-        >
-            <div onClick={(e) => e.stopPropagation()} className="relative">
-                <button
-                    onClick={onClose}
-                    className="absolute right-3 top-3 rounded-full bg-foreground p-1.5 text-background transition-colors hover:bg-foreground/60"
-                >
-                    <X size={20} />
-                </button>
-                <Image
-                    src={src}
-                    alt="Expanded Attachment"
-                    width={800}
-                    height={800}
-                    className="rounded-2xl"
-                />
-            </div>
-        </div>
+        <Dialog open onOpenChange={onClose}>
+            <DialogContent className="w-max max-w-2xl border-0 bg-transparent shadow-none">
+                <DialogTitle className="sr-only">
+                    Expanded Attachment
+                </DialogTitle>
+                <DialogDescription className="sr-only">
+                    Expanded attachment
+                </DialogDescription>
+                <ScrollArea className="h-full max-h-[90vh] w-full">
+                    <Image
+                        src={src}
+                        alt="Expanded Attachment"
+                        width={600}
+                        height={300}
+                        className="aspect-[2 / 1] mb-2 mr-auto mt-4 max-h-[25rem] w-full object-contain 2xl:max-h-[30rem]"
+                    />
+                </ScrollArea>
+            </DialogContent>
+        </Dialog>
     );
 }
 
