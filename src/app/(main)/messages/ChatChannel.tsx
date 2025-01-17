@@ -1,4 +1,5 @@
 import {
+    Avatar,
     Channel,
     ChannelHeader,
     ChannelHeaderProps,
@@ -9,6 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import Link from "next/link";
 
 interface ChatChannelProps {
     open: boolean;
@@ -44,7 +46,19 @@ function CustomChannelHeader({
                     <Menu className="size-5" />
                 </Button>
             </div>
-            <ChannelHeader {...props} />
+            <ChannelHeader
+                Avatar={(props) => {
+                    return (
+                        <Link
+                            href={`/users/${props.user?.username}`}
+                            className="cursor-pointer"
+                        >
+                            <Avatar {...props} />
+                        </Link>
+                    );
+                }}
+                {...props}
+            />
         </div>
     );
 }
