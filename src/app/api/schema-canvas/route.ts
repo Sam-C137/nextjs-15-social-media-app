@@ -54,7 +54,16 @@ export async function POST(req: NextRequest) {
 
         return Response.json(
             { message: "File uploaded successfully" },
-            { status: 200 },
+            {
+                status: 200,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+                    "Access-Control-Allow-Headers":
+                        "Content-Type, Authorization",
+                    "Cache-Control": "no-cache, no-store, must-revalidate",
+                },
+            },
         );
     } catch (error) {
         console.error("Error uploading file:", error);
