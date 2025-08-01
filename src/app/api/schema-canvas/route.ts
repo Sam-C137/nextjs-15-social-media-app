@@ -75,6 +75,10 @@ export async function GET() {
             headers: {
                 "Content-Type": "application/json",
                 "Content-Disposition": `attachment; filename="schema-canvas-data.json"`,
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                "Cache-Control": "no-cache, no-store, must-revalidate",
             },
         });
     } catch (error) {
