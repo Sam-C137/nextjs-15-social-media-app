@@ -148,3 +148,13 @@ enum NotificationType {
   FOLLOW
   COMMENT
 }
+
+model SchemaCanvasData {
+  id   String @id @default(cuid())
+  data Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("schema_canvas_data")
+}
